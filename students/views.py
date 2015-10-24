@@ -7,14 +7,13 @@ from .forms import StudentsForm, GroupsForm
 from django.template import RequestContext
 
 
-
 def groups(request):
     """
     Представление для обработки событий на странице с группами
     """
     if auth.get_user(request).username:
-        if auth.get_user(request).username == 'admin':                           # админу показывается работа всех
-            groupsList = GroupsSt.objects.all()                                  # пользователей
+        if auth.get_user(request).is_superuser:
+            groupsList = GroupsSt.objects.all()
         else:
             groupsList = GroupsSt.objects.filter(author=auth.get_user(request))
         form = GroupsForm()

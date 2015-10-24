@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Groups</title>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dialog.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src ="{% static 'js/dialog.js' %}"></script>
+    <script src ="{% static 'js/interactive_search.js' %}"></script>
+
+</head>
+<body>
+
+<dev id="header">
+    <a href="../students/">Все студенты</a>
+    <div id = "right">
+        <span>Добрый день {{username}}</span>
+        <a href="../logout/">Выйти</a>
+    </div>
+</dev>
+
+
+    <div id="body">
+        <form action="." method="post">
+            {% csrf_token %}
+            {{ form }}
+            <label for="year">Год: </label>
+            <input type='date' name = 'year' id="year">
+            <input type='submit' name = 'action' value='Add'>
+        </form>
+        {% if groupsList %}
+        <label for="search">Поиск:</label>
+	    <input type="text" id="search" placeholder="Type to search">
+		<table id="table">
+
+            <tr>
+                <th>Факультет</th>
+                <th>Группа</th>
+                <th>Дата создания</th>
+                <th>Удалить</th>
+                <th>Обновить</th>
+            </tr>
+			{% for i in groupsList %}
+				<tr class="searchable">
+					<td>{{i.faculty}}</td>
+					<td>{{i.name}}</td>
+					<td>{{i.created.year}}</td>
+					<td>
+						<form action="." method="post">
+							{% csrf_token %}
+							<input type="image" src="{% static 'img/delete.png' %}" name='action' value='Delete' alt="submit">
+							<input type='hidden' name='id' value='{{i.id}}'>
+						</form>
+					</td>
+					<td>
+						<input type="image" src="{% static 'img/refresh.png' %}" name="update" onclick=Update(this.id) id="{{i.id}}">
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+    </div>
+	{% else %}
+	    <p>No groups are available.</p>
+	{% endif %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+
+
+<dialog id ="dialog_form">
+    <div>
+        <form action="." method="post">
+			{% csrf_token %}
+			<input type="hidden" name="old" id="old">
+            <label for="newfaculty">Факультет: </label>
+            <input type="text" name="newfaculty" id="newfaculty"><br>
+            <label for="newname">Группа: </label>
+            <input type="text" name="newname" id="newname"><br>
+			<label for="newyear">Год: </label>
+			<input type="date" name="newyear" id="newyear"><br>
+            <input type="submit" name="action" value="Обновить">
+            <input type="button" id="exit" value="Отмена">
+        </form>
+    </div>
+</dialog>
+</body>
+</html>

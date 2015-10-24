@@ -1,0 +1,10 @@
+ #header {display: block; height: 30px; background: grey;padding: 15px;font-size:20px;color:white;}
+        #header a {text-decoration: none;color:#C2FFFF}
+        #header a:visited {color:#C2FFFF}
+        #header #right {float: right;}
+        #body {width: 750px;margin:auto;margin-top:10px;}
+        table {margin:auto;border-collapse: collapse; vertical-align:middle; text-align:center;}
+		body {padding: 0px; margin: 0px;}
+		input {margin-bottom: 5px; padding: 2px 3px;}
+		select {width:100px;}
+		td {padding: 4px; border: 1px #CCC solid; width: 100px;}
